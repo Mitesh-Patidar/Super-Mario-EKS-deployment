@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mario-game-service
+  labels:
+    app: mario-game
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
+spec:
+  type: LoadBalancer
+  selector:
+    app: mario-game
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 80

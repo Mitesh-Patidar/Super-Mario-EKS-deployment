@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mario-dep
+  labels:
+    app: mario-game
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: mario-game
+  template:
+    metadata:
+      labels:
+        app: mario-game
+    spec:
+      containers:
+        - name: mario-game-container
+          image: sevenajay/mario:latest
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              cpu: "120m"
+              memory: "200Mi"
+            limits:
+              cpu: "300m"
+              memory: "500Mi"
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 10
+            periodSeconds: 15
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 10
+
